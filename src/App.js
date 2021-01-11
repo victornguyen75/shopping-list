@@ -20,6 +20,7 @@ function App() {
       }
     );
 
+    newPending.sort(alphabetize);
     setPending(newPending);
     setItem('');
   }
@@ -27,6 +28,10 @@ function App() {
   const moveItem = (id, sourceList, destinationList, actionType) => {
     let itemIndex = sourceList.findIndex(item => {
       return item.id === id;
+    });
+
+    let newSourceList = sourceList.filter(item => {
+      return item.id !== id;
     });
 
     let newDestinationList = [...destinationList];
@@ -38,13 +43,16 @@ function App() {
       price: sourceList[itemIndex].price,
     });
 
-    actionType === "toCompleted" ? setCompleted(newDestinationList) : setPending(newDestinationList);
+    newSourceList.sort(alphabetize);
+    newDestinationList.sort(alphabetize);
 
-    let newSourceList = sourceList.filter(item => {
-      return item.id !== id;
-    });
-
-    actionType === "toCompleted" ? setPending(newSourceList) : setCompleted(newSourceList);
+    if (actionType === "toCompleted") {
+      setPending(newSourceList);
+      setCompleted(newDestinationList);
+    } else {
+      setPending(newDestinationList);
+      setCompleted(newSourceList);
+    }
   }
 
   return (<>
@@ -77,3 +85,7 @@ function App() {
 }
 
 export default App;
+
+function alphabetize(item1, item2) {
+  return item1.name > item2.name ? 1 : -1;
+}
