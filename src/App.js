@@ -24,11 +24,12 @@ function App() {
   }
 
   return (<>
+  <h1>Shopping List Application</h1>
     <form onSubmit={addItem}>
       <input value={item} onChange={e => setItem(e.target.value)} placeholder="Add a new item"/>
       <button type="submit" disabled={!item}>Add</button>
     </form>
-    <h2>Pending Items List</h2>
+    <h2>Pending Items</h2>
     <ul>
       {list.map(item => {
         return (
@@ -38,6 +39,7 @@ function App() {
         );
       })}
     </ul>
+    <h2>Completed Items</h2>
   </>);
 }
 
