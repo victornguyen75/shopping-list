@@ -4,6 +4,7 @@ import styled from 'styled-components';
 function App() {
   const [list, setList] = useState([]);
   const [item, setItem] = useState('');
+  const [completed, setCompleted] = useState([]);
 
   const addItem = e => {
     e.preventDefault();
@@ -23,6 +24,44 @@ function App() {
     setItem('');
   }
 
+  const moveItemToCompleted = id => {
+    let itemIndex = list.findIndex(item => {
+      return item.id === id;
+    });
+
+    let newCompleted = [...completed];
+    newCompleted.push({ 
+        id: list[itemIndex].id,
+        name: list[itemIndex].name,
+        category: list[itemIndex].category,
+        quantity: list[itemIndex].quantity,
+        price: list[itemIndex].price,
+    });
+
+    setCompleted(newCompleted);
+    list.splice(itemIndex, 1);
+    setList(list);
+  }
+
+  const moveItemToPending = id => {
+    let itemIndex = completed.findIndex(item => {
+      return item.id === id;
+    });
+
+    let newList = [...list];
+    newList.push({ 
+      id: completed[itemIndex].id,
+      name: completed[itemIndex].name,
+      category: completed[itemIndex].category,
+      quantity: completed[itemIndex].quantity,
+      price: completed[itemIndex].price,
+  });
+
+    setList(newList);
+    completed.splice(itemIndex, 1);
+    setCompleted(completed);
+  }
+
   return (<>
   <h1>Shopping List Application</h1>
     <form onSubmit={addItem}>
@@ -33,13 +72,22 @@ function App() {
     <ul>
       {list.map(item => {
         return (
-          <li key={item.id}>
+          <li key={item.id} onClick={() => moveItemToCompleted(item.id)}>
             {item.name}
           </li>
         );
       })}
     </ul>
     <h2>Completed Items</h2>
+    <ul>
+      {completed.map(item => {
+        return (
+          <li key={item.id} onClick={() => moveItemToPending(item.id)}>
+            {item.name}
+          </li>
+        );
+      })}
+    </ul>
   </>);
 }
 
