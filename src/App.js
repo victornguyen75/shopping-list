@@ -39,8 +39,12 @@ function App() {
     });
 
     setCompleted(newCompleted);
-    list.splice(itemIndex, 1);
-    setList(list);
+
+    let newList = list.filter(item => {
+      return item.id !== id;
+    });
+
+    setList(newList);
   }
 
   const moveItemToPending = id => {
@@ -58,8 +62,12 @@ function App() {
   });
 
     setList(newList);
-    completed.splice(itemIndex, 1);
-    setCompleted(completed);
+
+    let newCompleted = completed.filter(item => {
+      return item.id !== id;
+    });
+
+    setCompleted(newCompleted);
   }
 
   return (<>
