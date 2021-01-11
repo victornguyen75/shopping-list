@@ -31,11 +31,11 @@ function App() {
 
     let newDestinationList = [...destinationList];
     newDestinationList.push({ 
-        id: sourceList[itemIndex].id,
-        name: sourceList[itemIndex].name,
-        category: sourceList[itemIndex].category,
-        quantity: sourceList[itemIndex].quantity,
-        price: sourceList[itemIndex].price,
+      id: sourceList[itemIndex].id,
+      name: sourceList[itemIndex].name,
+      category: sourceList[itemIndex].category,
+      quantity: sourceList[itemIndex].quantity,
+      price: sourceList[itemIndex].price,
     });
 
     actionType === "toCompleted" ? setCompleted(newDestinationList) : setPending(newDestinationList);
