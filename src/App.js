@@ -11,7 +11,8 @@ function App() {
 
     newList.push(
       {
-        item,
+        id: 1 + Math.random(),
+        name: item,
         category: '',
         quantity: '',
         price: '',
@@ -27,6 +28,16 @@ function App() {
       <input value={item} onChange={e => setItem(e.target.value)} placeholder="Add a new item"/>
       <button type="submit" disabled={!item}>Add</button>
     </form>
+    <h2>Pending Items List</h2>
+    <ul>
+      {list.map(item => {
+        return (
+          <li key={item.id}>
+            {item.name}
+          </li>
+        );
+      })}
+    </ul>
   </>);
 }
 
