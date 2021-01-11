@@ -24,50 +24,27 @@ function App() {
     setItem('');
   }
 
-  const moveItemToCompleted = id => {
-    let itemIndex = pending.findIndex(item => {
+  const moveItem = (id, sourceList, destinationList, actionType) => {
+    let itemIndex = sourceList.findIndex(item => {
       return item.id === id;
     });
 
-    let newCompleted = [...completed];
-    newCompleted.push({ 
-        id: pending[itemIndex].id,
-        name: pending[itemIndex].name,
-        category: pending[itemIndex].category,
-        quantity: pending[itemIndex].quantity,
-        price: pending[itemIndex].price,
+    let newDestinationList = [...destinationList];
+    newDestinationList.push({ 
+        id: sourceList[itemIndex].id,
+        name: sourceList[itemIndex].name,
+        category: sourceList[itemIndex].category,
+        quantity: sourceList[itemIndex].quantity,
+        price: sourceList[itemIndex].price,
     });
 
-    setCompleted(newCompleted);
+    actionType === "toCompleted" ? setCompleted(newDestinationList) : setPending(newDestinationList);
 
-    let newPending = pending.filter(item => {
+    let newSourceList = sourceList.filter(item => {
       return item.id !== id;
     });
 
-    setPending(newPending);
-  }
-
-  const moveItemToPending = id => {
-    let itemIndex = completed.findIndex(item => {
-      return item.id === id;
-    });
-
-    let newPending = [...pending];
-    newPending.push({ 
-      id: completed[itemIndex].id,
-      name: completed[itemIndex].name,
-      category: completed[itemIndex].category,
-      quantity: completed[itemIndex].quantity,
-      price: completed[itemIndex].price,
-  });
-
-    setPending(newPending);
-
-    let newCompleted = completed.filter(item => {
-      return item.id !== id;
-    });
-
-    setCompleted(newCompleted);
+    actionType === "toCompleted" ? setPending(newSourceList) : setCompleted(newSourceList);
   }
 
   return (<>
@@ -80,7 +57,7 @@ function App() {
     <ul>
       {pending.map(item => {
         return (
-          <li key={item.id} onClick={() => moveItemToCompleted(item.id)}>
+          <li key={item.id} onClick={() => moveItem(item.id, pending, completed, "toCompleted")}>
             {item.name}
           </li>
         );
@@ -90,7 +67,7 @@ function App() {
     <ul>
       {completed.map(item => {
         return (
-          <li key={item.id} onClick={() => moveItemToPending(item.id)}>
+          <li key={item.id} onClick={() => moveItem(item.id, completed, pending, "toPending")}>
             {item.name}
           </li>
         );
